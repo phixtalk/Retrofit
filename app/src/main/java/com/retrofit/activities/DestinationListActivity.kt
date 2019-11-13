@@ -55,11 +55,12 @@ class DestinationListActivity : AppCompatActivity() {
 				if (response.isSuccessful){
 					val destinationList = response.body()!!
 					destiny_recycler_view.adapter = DestinationAdapter(destinationList)
+					println("Response: Success")
 				}
 			}
 
 			override fun onFailure(call: Call<List<Destination>>, t: Throwable) {
-
+				println("Response: Failure ${t.localizedMessage}")
 			}
 
 		})

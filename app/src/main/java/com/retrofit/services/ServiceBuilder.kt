@@ -6,7 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object ServiceBuilder {
 
-    private const val URL = "http://127.0.0.1:9000/"
+    private const val URL = "http://10.0.2.2:9000/"//will be converted to http://127.0.0.1:9000/ by emulator at runtime
 
     //create OKHttp Client
     private val OkHttp = OkHttpClient.Builder()
