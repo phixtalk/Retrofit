@@ -7,7 +7,13 @@ import com.retrofit.R
 import com.retrofit.activities.DestinationCreateActivity
 import com.retrofit.helpers.DestinationAdapter
 import com.retrofit.helpers.SampleData
+import com.retrofit.models.Destination
+import com.retrofit.services.DestinationService
+import com.retrofit.services.ServiceBuilder
 import kotlinx.android.synthetic.main.activity_destiny_list.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class DestinationListActivity : AppCompatActivity() {
 
@@ -33,6 +39,30 @@ class DestinationListActivity : AppCompatActivity() {
 	private fun loadDestinations() {
 
         // To be replaced by retrofit code
-		destiny_recycler_view.adapter = DestinationAdapter(SampleData.DESTINATIONS)
+
+		val destinationService = ServiceBuilder.builderService(DestinationService::class.java)
+
+		val requestCall = destinationService.getDestinationList()
+
+		//the enqueue function performs the request operation asynchronously in the background thread
+		//Retrofit uses the call interface to make the network calls
+		requestCall.enqueue(object: Callback<List<Destination>> {
+
+			override fun onResponse(
+				call: Call<List<Destination>>,
+				response: Response<List<Destination>>
+			) {
+				if (response.isSuccessful){
+					val destinationList = response.body()!!
+					destiny_recycler_view.adapter = DestinationAdapter(destinationList)
+				}
+			}
+
+			override fun onFailure(call: Call<List<Destination>>, t: Throwable) {
+
+			}
+
+		})
+
     }
 }
